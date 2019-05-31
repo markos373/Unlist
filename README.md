@@ -1,0 +1,2 @@
+# Unlist
+Unlist will be the go-to application to help clean up that dirty, dirty, Gmail inbox. It will unsubscribe from email lists that you no longer want to be a part of. It will also have options to delete emails that match a user input to remove those pesky, constant spam emails that get through the filter. This is a new project and during this semester we will build it from scratch. We plan to first construct the unsubscribe algorithm, as well as the mass deletion algorithm, and the GUI.
