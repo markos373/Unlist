@@ -8,3 +8,13 @@ D:\cs\Unlist\Unlist\obj\Debug\Unlist.csproj.GenerateResource.cache
 D:\cs\Unlist\Unlist\obj\Debug\Unlist.csproj.CoreCompileInputs.cache
 D:\cs\Unlist\Unlist\obj\Debug\Unlist.exe
 D:\cs\Unlist\Unlist\obj\Debug\Unlist.pdb
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\bin\Debug\Unlist.exe.config
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\bin\Debug\Unlist.exe
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\bin\Debug\Unlist.pdb
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\obj\Debug\Unlist.csprojAssemblyReference.cache
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\obj\Debug\Unlist.Form1.resources
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\obj\Debug\Unlist.Properties.Resources.resources
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\obj\Debug\Unlist.csproj.GenerateResource.cache
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\obj\Debug\Unlist.csproj.CoreCompileInputs.cache
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\obj\Debug\Unlist.exe
+C:\Users\turgec\OneDrive\Projects\Code\Unlist\Unlist\Unlist\obj\Debug\Unlist.pdb
