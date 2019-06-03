@@ -39,7 +39,9 @@ namespace Unlist
 
         private void Button1_Click(object sender, EventArgs e)
         {
-
+            string user = userName.Text;
+            string pass = password.Text;
+            Console.WriteLine(user);
         }
     }
 }

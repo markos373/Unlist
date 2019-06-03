@@ -28,38 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.userName = new System.Windows.Forms.TextBox();
+            this.password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.Submit = new System.Windows.Forms.Button();
             this.Company1 = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
-            // textBox1
+            // userName
             // 
-            this.textBox1.Location = new System.Drawing.Point(128, 52);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(8, 4, 8, 4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(454, 24);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            this.userName.Location = new System.Drawing.Point(68, 55);
+            this.userName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.userName.Name = "userName";
+            this.userName.Size = new System.Drawing.Size(244, 25);
+            this.userName.TabIndex = 0;
+            this.userName.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
             // 
-            // textBox4
+            // password
             // 
-            this.textBox4.Location = new System.Drawing.Point(128, 119);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(8, 4, 8, 4);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(454, 24);
-            this.textBox4.TabIndex = 3;
-            this.textBox4.TextChanged += new System.EventHandler(this.TextBox4_TextChanged);
+            this.password.Location = new System.Drawing.Point(68, 126);
+            this.password.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(244, 25);
+            this.password.TabIndex = 3;
+            this.password.TextChanged += new System.EventHandler(this.TextBox4_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Stencil", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(120, 26);
-            this.label1.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.label1.Location = new System.Drawing.Point(64, 28);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(85, 18);
             this.label1.TabIndex = 4;
@@ -70,8 +70,8 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Stencil", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(120, 94);
-            this.label2.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.label2.Location = new System.Drawing.Point(64, 100);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 18);
             this.label2.TabIndex = 5;
@@ -80,10 +80,10 @@
             // Submit
             // 
             this.Submit.Font = new System.Drawing.Font("AcmeFont", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Submit.Location = new System.Drawing.Point(668, 52);
-            this.Submit.Margin = new System.Windows.Forms.Padding(8, 4, 8, 4);
+            this.Submit.Location = new System.Drawing.Point(356, 55);
+            this.Submit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Submit.Name = "Submit";
-            this.Submit.Size = new System.Drawing.Size(468, 94);
+            this.Submit.Size = new System.Drawing.Size(250, 100);
             this.Submit.TabIndex = 6;
             this.Submit.Text = "Submit";
             this.Submit.UseVisualStyleBackColor = true;
@@ -91,27 +91,27 @@
             // 
             // Company1
             // 
-            this.Company1.Font = new System.Drawing.Font("MS Outlook", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.Company1.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Company1.FormattingEnabled = true;
-            this.Company1.Location = new System.Drawing.Point(128, 235);
-            this.Company1.Margin = new System.Windows.Forms.Padding(8, 4, 8, 4);
+            this.Company1.Location = new System.Drawing.Point(68, 250);
+            this.Company1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Company1.Name = "Company1";
-            this.Company1.Size = new System.Drawing.Size(1146, 256);
+            this.Company1.Size = new System.Drawing.Size(613, 274);
             this.Company1.TabIndex = 7;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1924, 647);
+            this.ClientSize = new System.Drawing.Size(1026, 687);
             this.Controls.Add(this.Company1);
             this.Controls.Add(this.Submit);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox1);
-            this.Font = new System.Drawing.Font("AGA Arabesque", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.Margin = new System.Windows.Forms.Padding(8, 4, 8, 4);
+            this.Controls.Add(this.password);
+            this.Controls.Add(this.userName);
+            this.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Unlist";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -122,8 +122,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox userName;
+        private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button Submit;
