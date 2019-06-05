@@ -41,7 +41,7 @@ def read_email_from_gmail():
         print str(e)
 
 if __name__ == "__main__":
-    with open('credentials.txt') as f:
+    with open('credentials/credentials.txt') as f:
         credentials = [x.strip().split(':', 1) for x in f]
     FROM_EMAIL = credentials[0][0]
     FROM_PWD = credentials[0][1]
