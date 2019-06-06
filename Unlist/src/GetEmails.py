@@ -116,7 +116,6 @@ if __name__ == "__main__":
 
     GMAIL = "unlist.RCOS@gmail.com"
     PASSWORD = "RCOS_unlist!"
-    API_KEY = "AIzaSyA5GIhpj5vLQrOl6jdkSZl5ao8yNakvMSA"
 
     # If modifying these scopes, delete the file token.pickle.
     SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
