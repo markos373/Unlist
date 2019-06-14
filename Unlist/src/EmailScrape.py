@@ -26,20 +26,25 @@ def read_email_from_gmail():
         first_email_id = int(id_list[0])
         latest_email_id = int(id_list[-1])
 
-        for i in range(latest_email_id,first_email_id, -1):
+        for i in range(latest_email_id,latest_email_id-5, -1):
             typ, data = mail.fetch(i, '(RFC822)' )
            # print(data)
             file = open("body.html", "w")
             for response_part in data:
                 if isinstance(response_part, tuple):
                     #instead of beautiful soup, use regex 
-                    # https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)
-                    email_body = BeautifulSoup(quopri.decodestring(response_part[1]),'html.parser')
-                   # decoded = BeautifulSoup(response_part[1], 'html.parser')
+                    part = response_part[1].decode('utf-8')
+                    msg = email.message_from_string(part)
+                    email_body = quopri.decodestring(response_part[1])
+                    links = re.findall(r'https?:\/\/[www|links|]\.?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*',email_body)
+                   # file.write(email_body)
+                    print(msg['Subject'])
+                    for link in links:
+                        file.write(link)
+                        file.write('\n')
+                   #  decoded = BeautifulSoup(response_part[1], 'html.parser')
                     #file.write(response_part[1])
-                    for link in email_body.find_all('a'):
-                       file.write(link.get('href'))
-                       file.write("\n")
+                    
     except Exception, e:   
         print str(e)
 
