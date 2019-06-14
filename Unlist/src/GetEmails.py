@@ -13,7 +13,7 @@ import os.path
 # =============================================================================
 
 
-def GetMessageWithId(service, user_id, msg_id):
+def GetMessageWithId(service, user_id, msg_id, format):
   """Get a Message with given ID.
 
   Args:
@@ -26,8 +26,10 @@ def GetMessageWithId(service, user_id, msg_id):
     A Message.
   """
   try:
-    message = service.users().messages().get(userId=user_id, id=msg_id).execute()
-    print("Message snippet: %s" % message['snippet'])
+    message = service.users().messages().get(userId=user_id,
+                                             id=msg_id,
+                                             format=format).execute()
+    print("Message snippet: %s" % message["snippet"])
     return message
   except errors.HttpError as error:
     print("An error occurred: %s" % error)
@@ -116,9 +118,26 @@ if __name__ == "__main__":
 
     GMAIL = "unlist.RCOS@gmail.com"
     PASSWORD = "RCOS_unlist!"
+    EMAIL_COUNT = 100
 
     # If modifying these scopes, delete the file token.pickle.
     SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
     CREDENTIALS_PATH = "../../credentials.json"
     service = configure(SCOPES, CREDENTIALS_PATH)
-    GetMessageWithId(service, "me", "<CA+dP_+1UAVfMJ1AjQOtstitoM4ZdMEKMqgq9cL2BMJxgLFbw7g@mail.gmail.com>")
+
+    # Retrieve list of all messages
+    response = service.users().messages().list(userId="me",
+                                               labelIds=["UNREAD"],
+                                               maxResults=EMAIL_COUNT,
+                                               includeSpamTrash=True).execute()
+
+    email_count = response["resultSizeEstimate"]
+    print("Found", email_count, "messages!")
+
+    for msg in response["messages"]:
+        msg_id = msg["id"]
+        full_msg = GetMessageWithId(service, "me", msg_id, "raw")
+        decoded_msg = base64.urlsafe_b64decode(full_msg["raw"].encode("UTF8"))
+        #decoded_msg = base64.decodestring(full_msg["raw"].encode("UTF8"))
+        print(decoded_msg)
+        print()
