@@ -3,10 +3,12 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from apiclient import errors
+from bs4 import BeautifulSoup
 import base64
 import email
 import pickle
 import os.path
+import json
 
 
 # =============================================================================
@@ -14,25 +16,25 @@ import os.path
 
 
 def GetMessageWithId(service, user_id, msg_id, format):
-  """Get a Message with given ID.
+    """Get a Message with given ID.
 
-  Args:
-    service: Authorized Gmail API service instance.
-    user_id: User's email address. The special value "me"
-    can be used to indicate the authenticated user.
-    msg_id: The ID of the Message required.
+    Args:
+        service: Authorized Gmail API service instance.
+        user_id: User's email address. The special value "me"
+        can be used to indicate the authenticated user.
+        msg_id: The ID of the Message required.
 
-  Returns:
-    A Message.
-  """
-  try:
-    message = service.users().messages().get(userId=user_id,
-                                             id=msg_id,
-                                             format=format).execute()
-    print("Message snippet: %s" % message["snippet"])
-    return message
-  except errors.HttpError as error:
-    print("An error occurred: %s" % error)
+    Returns:
+        A Message.
+    """
+    try:
+        message = service.users().messages().get(userId=user_id,
+                                                 id=msg_id,
+                                                 format=format).execute()
+        msg_str = str(base64.urlsafe_b64decode(message["raw"].encode("ASCII")))
+        return msg_str
+    except errors.HttpError as error:
+        print("An error occurred: %s" % error)
 
 
 # =============================================================================
@@ -57,19 +59,70 @@ def ListMessagesWithLabels(service, user_id, label_ids=[]):
     response = service.users().messages().list(userId=user_id,
                                                labelIds=label_ids).execute()
     messages = []
-    if 'messages' in response:
-      messages.extend(response['messages'])
+    if "messages" in response:
+      messages.extend(response["messages"])
 
     while 'nextPageToken' in response:
-      page_token = response['nextPageToken']
+      page_token = response["nextPageToken"]
       response = service.users().messages().list(userId=user_id,
                                                  labelIds=label_ids,
                                                  pageToken=page_token).execute()
-      messages.extend(response['messages'])
-
+      messages.extend(response["messages"])
     return messages
   except errors.HttpError as error:
-    print('An error occurred: %s' % error)
+      print("An error occurred: %s" % error)
+
+
+# =============================================================================
+# =============================================================================
+
+
+def BatchDelete(service, user_id, ids_list):
+    """Delete a Message.
+
+    Args:
+        service: Authorized Gmail API service instance.
+        user_id: User's email address. The special value "me"
+        can be used to indicate the authenticated user.
+        msg_id: ID of Message to delete.
+    """
+    for msg_id in ids_list:
+        try:
+            service.users().messages().delete(userId=user_id, id=msg_id).execute()
+        except errors.HttpError as error:
+            print("An error occurred trying to delete %d" % msg_id)
+            print("ERROR: %s", error)
+
+
+# =============================================================================
+# =============================================================================
+
+
+def FilterRawEmail(raw_msg):
+    """Create a list of all href links in an email.
+
+    Args:
+        raw_msg: Raw message used to beautify with BeautifulSoup
+
+    Returns:
+        List of https links found from the email message
+    """
+    links = []
+    soup = BeautifulSoup(raw_msg, features="lxml")
+    for a_tag in soup.find_all("a", href=True):
+        print("Found url:", a_tag["href"])
+        links.append(a_tag["href"])
+    return links
+
+
+# =============================================================================
+# =============================================================================
+
+
+    def WriteToFile(msg, file_name):
+        out_msg = str(msg)
+        file = open(file_name, "w")
+        file.write(str(decoded_msg))
 
 
 # =============================================================================
@@ -127,7 +180,7 @@ if __name__ == "__main__":
 
     # Retrieve list of all messages
     response = service.users().messages().list(userId="me",
-                                               labelIds=["UNREAD"],
+                                               labelIds=["INBOX"],
                                                maxResults=EMAIL_COUNT,
                                                includeSpamTrash=True).execute()
 
@@ -136,8 +189,5 @@ if __name__ == "__main__":
 
     for msg in response["messages"]:
         msg_id = msg["id"]
-        full_msg = GetMessageWithId(service, "me", msg_id, "raw")
-        decoded_msg = base64.urlsafe_b64decode(full_msg["raw"].encode("UTF8"))
-        #decoded_msg = base64.decodestring(full_msg["raw"].encode("UTF8"))
-        print(decoded_msg)
-        print()
+        message = GetMessageWithId(service, "me", msg_id, "raw")
+        links = FilterRawEmail(message)
