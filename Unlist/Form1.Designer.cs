@@ -34,7 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.Submit = new System.Windows.Forms.Button();
             this.UnsubList = new System.Windows.Forms.CheckedListBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.finishedParsing = new System.Windows.Forms.ProgressBar();
             this.unsubscribe = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -89,7 +89,7 @@
             this.Submit.TabIndex = 6;
             this.Submit.Text = "Submit";
             this.Submit.UseVisualStyleBackColor = true;
-            this.Submit.Click += new System.EventHandler(this.Button1_Click);
+            this.Submit.Click += new System.EventHandler(this.SubmitCredentials);
             // 
             // UnsubList
             // 
@@ -102,12 +102,13 @@
             this.UnsubList.TabIndex = 7;
             this.UnsubList.SelectedIndexChanged += new System.EventHandler(this.Company1_SelectedIndexChanged);
             // 
-            // progressBar1
+            // finishedParsing
             // 
-            this.progressBar1.Location = new System.Drawing.Point(68, 552);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(613, 23);
-            this.progressBar1.TabIndex = 8;
+            this.finishedParsing.Location = new System.Drawing.Point(68, 552);
+            this.finishedParsing.Name = "finishedParsing";
+            this.finishedParsing.Size = new System.Drawing.Size(613, 23);
+            this.finishedParsing.TabIndex = 8;
+            this.finishedParsing.Click += new System.EventHandler(this.ProgressBar1_Click);
             // 
             // unsubscribe
             // 
@@ -125,7 +126,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1026, 687);
             this.Controls.Add(this.unsubscribe);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.finishedParsing);
             this.Controls.Add(this.UnsubList);
             this.Controls.Add(this.Submit);
             this.Controls.Add(this.label2);
@@ -150,7 +151,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button Submit;
         private System.Windows.Forms.CheckedListBox UnsubList;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar finishedParsing;
         private System.Windows.Forms.Button unsubscribe;
     }
 }

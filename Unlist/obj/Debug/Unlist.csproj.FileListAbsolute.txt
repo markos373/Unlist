@@ -7,3 +7,4 @@ D:\cs\Unlist\Unlist\obj\Debug\Unlist.csproj.GenerateResource.cache
 D:\cs\Unlist\Unlist\obj\Debug\Unlist.csproj.CoreCompileInputs.cache
 D:\cs\Unlist\Unlist\obj\Debug\Unlist.exe
 D:\cs\Unlist\Unlist\obj\Debug\Unlist.pdb
+D:\cs\Unlist\Unlist\obj\Debug\Unlist.csprojAssemblyReference.cache

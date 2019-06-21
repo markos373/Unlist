@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Unlist
@@ -19,6 +12,8 @@ namespace Unlist
         public Form1()
         {
             InitializeComponent();
+            unsubscribe.Visible = false;
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -41,20 +36,24 @@ namespace Unlist
 
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void SubmitCredentials(object sender, EventArgs e)
         {
             string user = userName.Text;
             string pass = password.Text;
             System.IO.File.WriteAllText(@"D:\cs\Unlist\Unlist\src\credentials\credentials.txt", user+":"+pass);
-            
+            finishedParsing.Step = 1;
             var lines = File.ReadAllLines(@"D:\cs\Unlist\Unlist\src\unsubscribeCompany.txt");
+
+            finishedParsing.Maximum = lines.Length;
             for (var i = 0; i < lines.Length; i += 1)
             {
                 var line = lines[i];
                 var parts = line.Split(':');
                 this.UnsubList.Items.Add(parts[0]);
+                finishedParsing.PerformStep();
                 // Process line
             }
+            unsubscribe.Visible = true;
             Console.Write("test");
                 
         }
@@ -81,6 +80,22 @@ namespace Unlist
         }
 
         private void Unsubscribe_Click(object sender, EventArgs e)
+        {
+            var lines = File.ReadAllLines(@"D:\cs\Unlist\Unlist\src\unsubscribeCompany.txt");
+
+            finishedParsing.Maximum = lines.Length;
+            for (var i = 0; i < lines.Length; i += 1)
+            {
+                var line = lines[i];
+                var parts = line.Split(':');
+                this.UnsubList.Items.Add(parts[0]);
+                finishedParsing.PerformStep();
+                // Process line
+            }
+            System.Diagnostics.Process.Start("http://google.com");
+        }
+
+        private void ProgressBar1_Click(object sender, EventArgs e)
         {
 
         }
