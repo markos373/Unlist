@@ -1,4 +1,4 @@
 company123:http://company123.com
-testcomp:http:sssss
-apple:http://ccdaca
-googl:http://test
+testcomp:https://facebook.com
+apple:sis.rpi.edu
+googl:google.com
