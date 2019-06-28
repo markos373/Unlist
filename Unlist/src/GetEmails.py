@@ -4,6 +4,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from apiclient import errors
 from bs4 import BeautifulSoup
+from flask import Flask
+from urllib import parse
+import quopri
 import base64
 import email
 import pickle
@@ -31,7 +34,7 @@ def GetMessageWithId(service, user_id, msg_id, format):
         message = service.users().messages().get(userId=user_id,
                                                  id=msg_id,
                                                  format=format).execute()
-        msg_str = str(base64.urlsafe_b64decode(message["raw"].encode("ASCII")))
+        msg_str = str(base64.urlsafe_b64decode(message["raw"].encode("utf-8")))
         return msg_str
     except errors.HttpError as error:
         print("An error occurred: %s" % error)
@@ -110,8 +113,14 @@ def FilterRawEmail(raw_msg):
     links = []
     soup = BeautifulSoup(raw_msg, features="lxml")
     for a_tag in soup.find_all("a", href=True):
-        print("Found url:", a_tag["href"])
-        links.append(a_tag["href"])
+        link = a_tag["href"]
+        if (len(link) < 10):
+            continue
+        else:
+            print("Before Cleaning:  ", link, end="\n\n")
+            clean_link = parse.unquote_plus(quopri.decodestring(link).decode('utf-8'))
+            print("Link:  ", clean_link, end = "\n\n")
+            links.append(clean_link)
     return links
 
 
@@ -120,6 +129,13 @@ def FilterRawEmail(raw_msg):
 
 
     def WriteToFile(msg, file_name):
+        """Write out a message to a file for debugging purposes.
+            Args:
+                msg: a message object
+                file_name: the output file name
+            Returns:
+                None
+        """
         out_msg = str(msg)
         file = open(file_name, "w")
         file.write(str(decoded_msg))
