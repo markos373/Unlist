@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -81,20 +82,28 @@ namespace Unlist
 
         private void Unsubscribe_Click(object sender, EventArgs e)
         {
+      
+            string checkedItems = string.Empty;
+            foreach (object Item in UnsubList.CheckedItems)
+            {
+                string link = get_link(Item.ToString());
+                if (link.Equals("")) return;
+                System.Diagnostics.Process.Start(link);
+            }
+            MessageBox.Show(checkedItems);
+        }
+        private string get_link(string company) {
             var lines = File.ReadAllLines(@"D:\cs\Unlist\Unlist\src\unsubscribeCompany.txt");
-
-            finishedParsing.Maximum = lines.Length;
             for (var i = 0; i < lines.Length; i += 1)
             {
                 var line = lines[i];
                 var parts = line.Split(':');
-                this.UnsubList.Items.Add(parts[0]);
-                finishedParsing.PerformStep();
-                // Process line
+                if (parts[0].Equals(company)) {
+                    return parts[1];
+                }
             }
-            System.Diagnostics.Process.Start("http://google.com");
+            return "";
         }
-
         private void ProgressBar1_Click(object sender, EventArgs e)
         {
 
