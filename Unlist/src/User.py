@@ -1,13 +1,12 @@
 class User(object):
 
-    def __init__(first, last, gmail):
-        if ((first is None) or (last is None) or (gmail is None)):
-            raise Exception("Argument has NULL value")
+    def __init__(gmail, password):
+        if ((gmail is None) or (password is None)):
+            raise Exception("ERROR: <argument has NULL value>")
         if (!isGmail(gmail)):
-            raise Exception("Email is not a valid gmail account")
-        self.first_name = first
-        self.last_name = last
+            raise Exception("ERROR: <email is not gmail>")
         self.gmail = gmail
+        self.password = password
 
     def isGmail(email_address):
         substr = "@gmail.com"
@@ -16,11 +15,8 @@ class User(object):
         else:
             return False
 
-    def getFirst():
-        return self.first_name
-
-    def getLast():
-        return self.last_name
-
     def getGmail():
         return self.gmail
+
+    def getPassword():
+        return self.pasword
