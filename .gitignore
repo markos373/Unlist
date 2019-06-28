@@ -1,7 +1,8 @@
-.vs/
-
 # Credentials for Gmail API
 credentials.json
 
 # Account for information for testing Gmail account
 unlist_gmail.txt
+
+# IMAT Credentials
+Unlist/src/credentials
