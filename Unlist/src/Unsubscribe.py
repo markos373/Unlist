@@ -35,7 +35,7 @@ if __name__ == "__main__":
     try:
         driver.find_element_by_xpath('//*[@id="identifierDone"]').click()
 
-    print("Program complete")
+    print("Program complete...")
 
     # Close the driver
     finally:
