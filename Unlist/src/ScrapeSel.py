@@ -19,11 +19,13 @@ if __name__ == "__main__":
    # driver.find_element_by_xpath('//button[@id="passwordNext"]')
     time.sleep(5)
     print("ATTEMPTING")
+    emails = []
     emails = driver.find_elements_by_xpath("//*[@class='yW']/span")
-    print(len(emails))
-    for email in emails:
-        email.click()
-        time.sleep(3)
+    for i in range(len(emails)):
+        emails = driver.find_elements_by_xpath("//*[@class='yW']/span")
+        time.sleep(2)
+        emails[i].click()
+        time.sleep(2)
         
         try:
             driver.find_element_by_class_name("Ca").click()
