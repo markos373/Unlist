@@ -21,6 +21,11 @@ if __name__ == "__main__":
     print("ATTEMPTING")
     emails = []
     emails = driver.find_elements_by_xpath("//*[@class='yW']/span")
+    f = open("emails.txt", "w+")
+    for email in emails:
+        f.write(email.text)
+        f.write("\n")
+    f.close()
     for i in range(len(emails)):
         emails = driver.find_elements_by_xpath("//*[@class='yW']/span")
         time.sleep(2)
