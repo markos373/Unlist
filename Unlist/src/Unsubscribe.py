@@ -1,9 +1,12 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+import traceback
 import time
 import sys
 import os
 
+# unlist.rcos@gmail.com
+# RCOS_unlist!
 
 def writeEmails(email_senders):
     """Write out a list of email senders to a text file.
@@ -19,9 +22,9 @@ def writeEmails(email_senders):
 
 # Read in the login information from the user
 def getLogin():
-    file = open("login.txt", "r")
-    email = file.read()
-    password = file.read()
+    file = open("credentials.txt", "r")
+    email = file.readline().rstrip()
+    password = file.readline().rstrip()
     return email, password
 
 
@@ -30,9 +33,8 @@ if __name__ == "__main__":
     # Define constants: login link and the path to the chromedriver.exe file
     GMAIL_LOGIN = "https://accounts.google.com/ServiceLogin?service=mail"
     CHROMEDRIVER_PATH = os.getcwd()
-
-    GMAIL = "unlist.rcos@gmail.com"
-    PASSWORD = "RCOS_unlist!"
+    GMAIL, PASSWORD = getLogin()
+    tb = ""
 
     try:
         # Asssumes that chromedriver.exe is placed in the current working directory
@@ -41,19 +43,17 @@ if __name__ == "__main__":
 
         # Tell the driver to open up the webpage
         driver.get(GMAIL_LOGIN)
-
-        # Sleep to ensure a clean open
-        time.sleep(2)
+        time.sleep(1)
 
         # Send the email to the login page
         driver.find_element_by_xpath('//*[@id="identifierId"]').send_keys(GMAIL)
         driver.find_element_by_xpath('//*[@id="identifierNext"]').click()
-        time.sleep(2)
+        time.sleep(1)
 
         # Send the password to the login page
         driver.find_element_by_xpath('//input[@name="password"]').send_keys(PASSWORD)
         driver.find_element_by_xpath('//*[@id="passwordNext"]').click()
-        time.sleep(2)
+        time.sleep(1)
 
         # Accept automated browsing --- this still needs to be tested
         """
@@ -69,47 +69,49 @@ if __name__ == "__main__":
 
         # Load up all of the emails
         emails = driver.find_elements_by_xpath("//*[@class='yW']/span")
-        time.sleep(1)
+        driver.implicitly_wait(5)
+
+        # Get the names from all of the emails
+        names = [email.text for email in emails]
         print("Found", len(emails), "emails!")
+
+        # Access the first email
+        if len(emails) > 0:
+            emails[0].click()
+            driver.implicitly_wait(5)
 
         # Create a dictionary to hold email sender names that have been found
         #         KEY: sender (string)
         #       VALUE: unsubscribe link (string)
         # value is empty string "" if no link found
         email_dict = {}
-
         for i in range(len(emails)):
-            emails = driver.find_elements_by_xpath("//*[@class='yW']/span")
-            sender = emails[i].text
-            print("Sender:", sender)
+            sender = names[i]
 
             # Continue if an unsubscribe link has already been found
-            print (sender in email_dict)
-            if (sender in email_dict) and (email_dict[sender] != ""):
-                print("Skipping this email, its already been unsubscribed")
+            if sender in email_dict:
+                print("Already processed " + sender + "...")
                 continue
 
             # If a new email is found, see if we can unsubscribe from it
             if sender not in email_dict:
-                time.sleep(1)
-                emails[i].click() # Click the email
-                time.sleep(1)
-
+                driver.implicitly_wait(5)
                 try:
-                    driver.find_element_by_class_name("Ca").click()
-                    time.sleep(1)
-                    driver.find_element_by_name("s").click()
-                    time.sleep(1)
-                    driver.execute_script("window.history.go(-1)")
-                    email_dict[sender] = "FOUND" # needs to be changed later
+                    if (driver.find_element_by_class_name("Ca") != None):
+                        print("Can unsubscribe from " + sender + "...")
+                        email_dict[sender] = 1
                 except NoSuchElementException:
-                    print("Already unsubscribed")
-                    driver.execute_script("window.history.go(-1)")
-                    time.sleep(1)
-                    continue
+                    print(sender + ": Already unsubscribed or unable to...")
+                    driver.implicitly_wait(2)
 
-    except:
-        print("An error occurred...")
+                # Click the next email button
+                driver.find_element_by_class_name("").click() """ THIS NEEDS TO BE WORKED ON """
+                driver.implicitly_wait(5)
+
+    except Exception as e:
+        print(e)
+        tb = traceback.format_exc()
     finally:
-        driver.close()
+        print(tb)
+        #driver.close()
         sys.exit(0)
