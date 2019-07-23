@@ -35,7 +35,7 @@ namespace UnlistGUI
             this.Submit = new System.Windows.Forms.Button();
             this.UnsubList = new System.Windows.Forms.CheckedListBox();
             this.Unsubscribe = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.parseStatus = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // User
@@ -85,33 +85,33 @@ namespace UnlistGUI
             this.UnsubList.FormattingEnabled = true;
             this.UnsubList.Location = new System.Drawing.Point(33, 190);
             this.UnsubList.Name = "UnsubList";
-            this.UnsubList.Size = new System.Drawing.Size(317, 304);
+            this.UnsubList.Size = new System.Drawing.Size(502, 304);
             this.UnsubList.TabIndex = 5;
             this.UnsubList.SelectedIndexChanged += new System.EventHandler(this.UnsubList_SelectedIndexChanged);
             // 
             // Unsubscribe
             // 
-            this.Unsubscribe.Location = new System.Drawing.Point(414, 190);
+            this.Unsubscribe.Location = new System.Drawing.Point(404, 27);
             this.Unsubscribe.Name = "Unsubscribe";
-            this.Unsubscribe.Size = new System.Drawing.Size(115, 83);
+            this.Unsubscribe.Size = new System.Drawing.Size(131, 87);
             this.Unsubscribe.TabIndex = 6;
             this.Unsubscribe.Text = "Unsubscribe from selection";
             this.Unsubscribe.UseVisualStyleBackColor = true;
             this.Unsubscribe.Click += new System.EventHandler(this.Unsubscribe_Click);
             // 
-            // progressBar1
+            // parseStatus
             // 
-            this.progressBar1.Location = new System.Drawing.Point(33, 531);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(317, 23);
-            this.progressBar1.TabIndex = 7;
+            this.parseStatus.Location = new System.Drawing.Point(33, 531);
+            this.parseStatus.Name = "parseStatus";
+            this.parseStatus.Size = new System.Drawing.Size(502, 23);
+            this.parseStatus.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(595, 648);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.parseStatus);
             this.Controls.Add(this.Unsubscribe);
             this.Controls.Add(this.UnsubList);
             this.Controls.Add(this.Submit);
@@ -119,9 +119,9 @@ namespace UnlistGUI
             this.Controls.Add(this.Username);
             this.Controls.Add(this.Pass);
             this.Controls.Add(this.User);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Unlist";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,7 +136,7 @@ namespace UnlistGUI
         private System.Windows.Forms.Button Submit;
         private System.Windows.Forms.CheckedListBox UnsubList;
         private System.Windows.Forms.Button Unsubscribe;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar parseStatus;
     }
 }
 
