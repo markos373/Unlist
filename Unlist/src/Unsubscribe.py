@@ -17,6 +17,7 @@ def writeEmails(email_senders):
     file = open("emails.txt", "w")
     for name in email_senders:
         file.write(name)
+        file.write('\n')
     file.close()
 
 
@@ -105,9 +106,11 @@ if __name__ == "__main__":
                     driver.implicitly_wait(2)
 
                 # Click the next email button
-                driver.find_element_by_class_name("").click() """ THIS NEEDS TO BE WORKED ON """
+                next = driver.find_element_by_xpath("//div[@class='T-I J-J5-Ji adg T-I-awG T-I-ax7 T-I-Js-Gs L3']")
                 driver.implicitly_wait(5)
+                continue
 
+        writeEmails(email_dict)
     except Exception as e:
         print(e)
         tb = traceback.format_exc()
