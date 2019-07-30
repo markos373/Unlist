@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Diagnostics;
 /**
  * Unlist GUI - An application to unsubscribe from those pesky companies who won't leave you alone!
  *
@@ -29,14 +29,16 @@ namespace UnlistGUI
          */
         private void Submit_Click(object sender, EventArgs e)
         {
-            File.WriteAllText("credentials.txt",User.Text + ":" + Pass.Text);
-            FileInfo emails = new FileInfo("emails.txt");
+
+            File.WriteAllText("src/credentials.txt",User.Text + ":" + Pass.Text);
+            FileInfo emails = new FileInfo("src/emails.txt");
             if (IsFileLocked(emails)) {
             }
             int count = 0;
             parseStatus.Step = 1;
-            parseStatus.Maximum = File.ReadLines("emails.txt").Count();
-            using (StreamReader readtext = new StreamReader("emails.txt"))
+            run_cmd("Unsubscribe.py");
+            parseStatus.Maximum = File.ReadLines("src/emails.txt").Count();
+            using (StreamReader readtext = new StreamReader("src/emails.txt"))
             {
                 while (!readtext.EndOfStream)
                 {
@@ -46,6 +48,7 @@ namespace UnlistGUI
                     parseStatus.PerformStep();
                 }
             }
+
             Unsubscribe.Visible = true;
         }
 
@@ -88,7 +91,25 @@ namespace UnlistGUI
             {
                 checkedItems += (Item.ToString() + "\n");
             }
-            System.IO.File.WriteAllText("selected_emails.txt",checkedItems);
+            System.IO.File.WriteAllText("src/selected_emails.txt",checkedItems);
+        }
+        private void run_cmd(string cmd)
+        {
+            Process p = new Process(); // create process to run the python program
+            p.StartInfo.FileName = @"\usr\bin\python3.5"; //Python.exe location
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.UseShellExecute = false; // ensures you can read stdout
+            p.StartInfo.Arguments = (@"D:\cs\Unlist\VS_GUI\UnlistGUI\bin\Debug\src\"+cmd);
+            p.Start(); // start the process (the python program)
+            StreamReader s = p.StandardOutput;
+            String output = s.ReadToEnd();
+            Console.WriteLine(output);
+            p.WaitForExit();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

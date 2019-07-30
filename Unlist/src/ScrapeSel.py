@@ -18,7 +18,7 @@ if __name__ == "__main__":
     driver.find_element_by_name('password').send_keys(PASS)
     driver.find_element_by_id("passwordNext").click()
    # driver.find_element_by_xpath('//button[@id="passwordNext"]')
-    time.sleep(1)
+    driver.implicitly_wait(2)
     with open("selected_emails.txt") as f:
         selected_emails = f.readlines()
     selected_emails = [x.strip() for x in selected_emails] 
