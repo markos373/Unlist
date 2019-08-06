@@ -1,16 +1,40 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import traceback
 import time
 import sys
 import os
 
-# unlist.rcos@gmail.com
-# RCOS_unlist!
+NEXT_BUTTON = "//div[@class='h0']/div[2]"
 
+# Keep looping until the next one is reached
+def reachNextElement(i):
+
+    # If 50 is reached, wait to allow Chrome to load more
+    if (i == 50):
+        time.sleep(5)
+
+    # Try to reach next email
+    stale_element = True
+    while (stale_element):
+        try:
+            time.sleep(0.1)
+            driver.find_element_by_xpath(NEXT_BUTTON).click()
+            stale_element = False
+        except StaleElementReferenceException:
+            stale_element = True
+        except ElementClickInterceptedException:
+            stale_element = True
+
+
+# Write out the emails to emails.txt
 def writeEmails(email_senders):
     """Write out a list of email senders to a text file.
-
     Args:
         email_senders - the list of email sender names
     """
@@ -23,10 +47,14 @@ def writeEmails(email_senders):
 
 # Read in the login information from the user
 def getLogin():
+    """ Retrieve the login information for the user
+    Returns:
+        email - the email of the user
+        password - the password of the user
+    """
     file = open("credentials.txt", "r")
-    args = file.readline().split(':')
-    email = args[0]
-    password = args[1]
+    email = file.readline().rstrip()
+    password = file.readline().rstrip()
     return email, password
 
 
@@ -36,16 +64,26 @@ if __name__ == "__main__":
     GMAIL_LOGIN = "https://accounts.google.com/ServiceLogin?service=mail"
     CHROMEDRIVER_PATH = os.getcwd()
     GMAIL, PASSWORD = getLogin()
-    tb = ""
+    TRACEBACK = "\n [LOGGING] Clean exit... goodbye"
 
     try:
+        # Run the window without it being open
+        options = webdriver.ChromeOptions();
+        options.add_argument('headless');
+        ######################################
+
         # Asssumes that chromedriver.exe is placed in the current working directory
         driver = webdriver.Chrome(CHROMEDRIVER_PATH + "/chromedriver.exe")
-        driver.implicitly_wait(5)
+        time.sleep(1)
 
         # Tell the driver to open up the webpage
         driver.get(GMAIL_LOGIN)
-        time.sleep(1)
+        #driver.minimize_window()
+
+        border = " ===================================================================="
+        print(border)
+        print(" ==== PROGRAM ACTIVE, DO NOT USE WINDOW UNTIL PROGRAM COMPLETION ====")
+        print(border + '\n')
 
         # Send the email to the login page
         driver.find_element_by_xpath('//*[@id="identifierId"]').send_keys(GMAIL)
@@ -69,53 +107,50 @@ if __name__ == "__main__":
             print("Did not prompt user for confirm email...")
         """
 
-        # Load up all of the emails
-        emails = driver.find_elements_by_xpath("//*[@class='yW']/span")
-        driver.implicitly_wait(5)
+        email_count = driver.find_element_by_xpath("//span[@class='Dj']/span[2]").text
+        email_count = int(email_count)
+        print(" [LOGGING] Found", email_count, "emails!")
 
-        # Get the names from all of the emails
-        names = [email.text for email in emails]
-        print("Found", len(emails), "emails!")
+        # Load up all of the emails
+        driver.implicitly_wait(5)
+        emails = driver.find_elements_by_xpath("//*[@class='yW']/span")
 
         # Access the first email
-        if len(emails) > 0:
-            emails[0].click()
+        if email_count > 0:
             driver.implicitly_wait(5)
+            emails[0].click()
 
-        # Create a dictionary to hold email sender names that have been found
-        #         KEY: sender (string)
-        #       VALUE: unsubscribe link (string)
-        # value is empty string "" if no link found
+        # Create a dictionary to hold the emails to unsubscribe from
         email_dict = {}
-        for i in range(len(emails)):
-            sender = names[i]
+        for i in range(email_count):
+
+            # Find the name of the sender
+            driver.implicitly_wait(5)
+            sender = driver.find_element_by_xpath("//span[@class='gD']").get_attribute("name")
 
             # Continue if an unsubscribe link has already been found
             if sender in email_dict:
-                print("Already processed " + sender + "...")
-                continue
+                print(" [LOGGING] Already processed \"" + sender + "\"...")
 
             # If a new email is found, see if we can unsubscribe from it
-            if sender not in email_dict:
-                driver.implicitly_wait(5)
+            else:
                 try:
+                    driver.implicitly_wait(5)
                     if (driver.find_element_by_class_name("Ca") != None):
-                        print("Can unsubscribe from " + sender + "...")
+                        print(" [LOGGING] Can unsubscribe from \"" + sender + "\"...")
                         email_dict[sender] = 1
                 except NoSuchElementException:
-                    print(sender + ": Already unsubscribed or unable to...")
-                    driver.implicitly_wait(2)
+                    print(" [LOGGING] \"" +sender+ "\": Already unsubscribed or unable to...")
 
-                # Click the next email button
-                next = driver.find_element_by_xpath("//div[@class='T-I J-J5-Ji adg T-I-awG T-I-ax7 T-I-Js-Gs L3']")
-                driver.implicitly_wait(5)
-                continue
+            reachNextElement(i)
 
         writeEmails(email_dict)
     except Exception as e:
+        print("\n" + border, border, sep="\n")
         print(e)
-        tb = traceback.format_exc()
+        TRACEBACK = traceback.format_exc()
     finally:
-        print(tb)
+        print(TRACEBACK)
+        writeEmails(email_dict)
         #driver.close()
         sys.exit(0)
