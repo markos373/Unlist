@@ -12,4 +12,4 @@ Unlist will be the go-to application to help clean up that cluttered, excessivel
 ## Dear User
 The GUI will prompt you for your Gmail email and password. Note that this program does NOT store any of your information! Thanks for trying out Unlist and happy unsubscribing... 
 
-To contribute, read CONTRIBUTING.md
+To contribute, (read CONTRIBUTING.md)[CONTRIBUTING.md]
