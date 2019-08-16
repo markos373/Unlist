@@ -30,7 +30,7 @@ namespace UnlistGUI
         private void Submit_Click(object sender, EventArgs e)
         {
 
-            File.WriteAllText("src/credentials.txt",User.Text + ":" + Pass.Text);
+            File.WriteAllText("src/credentials.txt",User.Text + "\n" + Pass.Text);
             FileInfo emails = new FileInfo("src/emails.txt");
             if (IsFileLocked(emails)) {
             }
@@ -95,16 +95,19 @@ namespace UnlistGUI
         }
         private void run_cmd(string cmd)
         {
-            Process p = new Process(); // create process to run the python program
-            p.StartInfo.FileName = @"\usr\bin\python3.5"; //Python.exe location
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.UseShellExecute = false; // ensures you can read stdout
-            p.StartInfo.Arguments = (@"D:\cs\Unlist\VS_GUI\UnlistGUI\bin\Debug\src\"+cmd);
-            p.Start(); // start the process (the python program)
-            StreamReader s = p.StandardOutput;
-            String output = s.ReadToEnd();
-            Console.WriteLine(output);
-            p.WaitForExit();
+            try
+            {
+                Process p = new Process(); 
+                Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
+                p.StartInfo.FileName = "run.bat"; 
+                p.StartInfo.CreateNoWindow = false;
+                p.Start();
+                p.WaitForExit(); 
+                MessageBox.Show("All unsubscribable emails have been found!");
+            } catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace.ToString());
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)

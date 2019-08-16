@@ -34,7 +34,6 @@ def reachNextElement(i):
 def goBack(i):
 
     # Try to reach previous email
-    print("TRYING")
     stale_element = True
     while (stale_element):
         try:
