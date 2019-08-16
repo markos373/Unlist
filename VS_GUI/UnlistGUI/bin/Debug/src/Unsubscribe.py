@@ -68,8 +68,8 @@ if __name__ == "__main__":
 
     try:
         # Run the window without it being open
-        options = webdriver.ChromeOptions();
-        options.add_argument('headless');
+        options = webdriver.ChromeOptions()
+        options.add_argument('headless')
         ######################################
 
         # Asssumes that chromedriver.exe is placed in the current working directory
