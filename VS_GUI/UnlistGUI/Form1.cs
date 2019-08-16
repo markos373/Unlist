@@ -36,7 +36,7 @@ namespace UnlistGUI
             }
             int count = 0;
             parseStatus.Step = 1;
-            run_cmd("Unsubscribe.py");
+            run_cmd("getEmails.bat");
             parseStatus.Maximum = File.ReadLines("src/emails.txt").Count();
             using (StreamReader readtext = new StreamReader("src/emails.txt"))
             {
@@ -92,6 +92,7 @@ namespace UnlistGUI
                 checkedItems += (Item.ToString() + "\n");
             }
             System.IO.File.WriteAllText("src/selected_emails.txt",checkedItems);
+            run_cmd("unsubscribe.bat");
         }
         private void run_cmd(string cmd)
         {
@@ -99,11 +100,11 @@ namespace UnlistGUI
             {
                 Process p = new Process(); 
                 Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
-                p.StartInfo.FileName = "run.bat"; 
+                p.StartInfo.FileName = cmd; 
                 p.StartInfo.CreateNoWindow = false;
                 p.Start();
                 p.WaitForExit(); 
-                MessageBox.Show("All unsubscribable emails have been found!");
+                MessageBox.Show("Running " +cmd);
             } catch(Exception e)
             {
                 Console.WriteLine(e.StackTrace.ToString());
